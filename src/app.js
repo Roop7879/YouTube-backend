@@ -4,7 +4,7 @@ import cors from 'cors'
 
 const app = express()
 
-//check for origin
+//check for url origin
 app.use(cors({
     origin: process.env.CORS_URI,
     credentials: true
