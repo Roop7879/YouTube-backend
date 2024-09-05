@@ -163,8 +163,8 @@ const LogoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
-        refreshTokens: undefined,
+      $unset: {
+        refreshTokens: 1,
       },
     },
     {
@@ -274,7 +274,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
   ).select("-password");
 
   return res.status(200).json(new ApiResponse(200, user, "A"));
-});
+}); 
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocal = req.file?.path;
@@ -383,7 +383,7 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
     }
   ])
 
-  console.log(channel)  
+  // console.log(channel)  
   if(!channel?.length){
     throw new ApiError(404, "Channel does not exist");
   }
@@ -392,10 +392,6 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
   .json(new ApiResponse(200,channel[0],"User channel fetched Successfully"))
 })
 
-
-
-
-
 export {
   registerUser,
   loginUser,
@@ -403,6 +399,7 @@ export {
   refreshAccessToken,
   changePassword,
   getCurrnetUser,
+  updateAccountDetails,
   updateUserAvatar,
   updateUserCoverImage,
   getUserChannelProfile
